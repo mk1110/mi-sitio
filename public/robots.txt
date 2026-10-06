@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
 
-# TODO: actualiza con tu dominio real (el mismo que está en astro.config.mjs)
-Sitemap: https://portfolio-astro.netlify.app/sitemap-index.xml
+Sitemap: https://mi-sitio-pied.vercel.app/sitemap-index.xml

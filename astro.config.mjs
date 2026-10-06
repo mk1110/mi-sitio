@@ -5,8 +5,7 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
-  // TODO: cambia esto por tu dominio real (lo usan el sitemap y las URLs canónicas)
-  site: 'https://portfolio-astro.netlify.app',
+  site: 'https://mi-sitio-pied.vercel.app',
   integrations: [sitemap()],
   vite: {
     plugins: [tailwindcss()],
