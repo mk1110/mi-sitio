@@ -1,0 +1,75 @@
+---
+import type { Project } from '../data/site';
+import Icon from './icons/Icon.astro';
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+const { title, description, tags, repo, demo, featured } = project;
+---
+
+<article
+  class="group relative flex flex-col rounded-2xl border border-zinc-200 bg-white/60 p-6 transition-all hover:-translate-y-1 hover:border-accent-500/50 hover:shadow-xl hover:shadow-accent-500/5 dark:border-zinc-800 dark:bg-zinc-900/50 dark:hover:border-accent-500/50 dark:hover:shadow-accent-500/10"
+>
+  <div class="flex items-start justify-between gap-4">
+    <span
+      class="grid size-10 shrink-0 place-items-center rounded-xl bg-zinc-100 text-zinc-600 transition-colors group-hover:bg-accent-500 group-hover:text-white dark:bg-zinc-800 dark:text-zinc-400"
+      aria-hidden="true"
+    >
+      <Icon name="terminal" class="size-5" />
+    </span>
+    {
+      featured && (
+        <span class="rounded-full bg-accent-500/10 px-2.5 py-1 text-xs font-medium text-accent-500">
+          Destacado
+        </span>
+      )
+    }
+  </div>
+
+  <h3 class="mt-5 text-lg font-semibold tracking-tight">{title}</h3>
+  <p class="mt-2 grow text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">{description}</p>
+
+  <ul class="mt-5 flex flex-wrap gap-1.5">
+    {
+      tags.map((tag) => (
+        <li class="rounded-md bg-zinc-100 px-2 py-0.5 font-mono text-xs text-zinc-600 dark:bg-zinc-800/70 dark:text-zinc-400">
+          {tag}
+        </li>
+      ))
+    }
+  </ul>
+
+  {
+    (repo || demo) && (
+      <div class="mt-6 flex items-center gap-4 border-t border-zinc-200/70 pt-4 dark:border-zinc-800">
+        {repo && (
+          <a
+            href={repo}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-700 transition-colors hover:text-accent-500 dark:text-zinc-300 dark:hover:text-accent-400"
+          >
+            <Icon name="github" class="size-4" />
+            Repositorio
+            <span class="sr-only">de {title} (se abre en una pestaña nueva)</span>
+          </a>
+        )}
+        {demo && (
+          <a
+            href={demo}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-700 transition-colors hover:text-accent-500 dark:text-zinc-300 dark:hover:text-accent-400"
+          >
+            <Icon name="arrow-up-right" class="size-4" />
+            Ver sitio
+            <span class="sr-only">de {title} (se abre en una pestaña nueva)</span>
+          </a>
+        )}
+      </div>
+    )
+  }
+</article>

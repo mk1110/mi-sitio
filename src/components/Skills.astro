@@ -1,0 +1,37 @@
+---
+import Section from './Section.astro';
+import Icon from './icons/Icon.astro';
+import { skills } from '../data/site';
+---
+
+<Section
+  id="stack"
+  eyebrow="Stack"
+  title="Tecnologías con las que trabajo"
+  description="Herramientas que uso de forma habitual, elegidas por lo que aportan y no por moda."
+>
+  <div class="grid gap-5 sm:grid-cols-2">
+    {
+      skills.map((group) => (
+        <article class="rounded-2xl border border-zinc-200 bg-white/60 p-6 transition-colors hover:border-accent-500/40 dark:border-zinc-800 dark:bg-zinc-900/40 dark:hover:border-accent-500/40">
+          <div class="flex items-center gap-3">
+            <span
+              class="grid size-9 shrink-0 place-items-center rounded-lg bg-accent-500/10 text-accent-500"
+              aria-hidden="true"
+            >
+              <Icon name={group.icon} class="size-5" />
+            </span>
+            <h3 class="font-semibold">{group.category}</h3>
+          </div>
+          <ul class="mt-5 flex flex-wrap gap-2">
+            {group.items.map((item) => (
+              <li class="rounded-full border border-zinc-200 bg-zinc-100/70 px-3 py-1 text-xs font-medium text-zinc-700 dark:border-zinc-800 dark:bg-zinc-800/60 dark:text-zinc-300">
+                {item}
+              </li>
+            ))}
+          </ul>
+        </article>
+      ))
+    }
+  </div>
+</Section>

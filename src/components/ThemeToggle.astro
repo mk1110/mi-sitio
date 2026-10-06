@@ -1,0 +1,49 @@
+---
+import Icon from './icons/Icon.astro';
+
+// El HTML se sirve siempre en modo oscuro, así que la etiqueta inicial dice
+// "cambiar a claro". El script de abajo la sincroniza al montar.
+const initialLabel = 'Cambiar a tema claro';
+---
+
+<button
+  id="theme-toggle"
+  type="button"
+  aria-label={initialLabel}
+  class="rounded-lg p-2 text-zinc-600 transition-colors hover:bg-zinc-200/70 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
+>
+  <Icon name="sun" class="hidden size-5 dark:block" />
+  <Icon name="moon" class="size-5 dark:hidden" />
+  <span class="sr-only">Cambiar tema</span>
+</button>
+
+<script>
+  const root = document.documentElement;
+  const toggle = document.getElementById('theme-toggle');
+
+  const isDark = () => root.classList.contains('dark');
+  const syncLabel = () => {
+    if (!toggle) return;
+    toggle.setAttribute('aria-label', isDark() ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro');
+  };
+
+  toggle?.addEventListener('click', () => {
+    const next = !isDark();
+    root.classList.toggle('dark', next);
+    try {
+      localStorage.setItem('theme', next ? 'dark' : 'light');
+    } catch {
+      /* modo privado: la preferencia simplemente no se persiste */
+    }
+    syncLabel();
+  });
+
+  // Mantiene el tema sincronizado si la persona tiene el sitio en dos pestañas.
+  window.addEventListener('storage', (event) => {
+    if (event.key !== 'theme') return;
+    root.classList.toggle('dark', event.newValue !== 'light');
+    syncLabel();
+  });
+
+  syncLabel();
+</script>

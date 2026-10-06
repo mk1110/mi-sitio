@@ -1,0 +1,21 @@
+/** Nombres de los iconos disponibles en `components/icons/Icon.astro`. */
+export type IconName =
+  | 'github'
+  | 'linkedin'
+  | 'instagram'
+  | 'mail'
+  | 'sun'
+  | 'moon'
+  | 'menu'
+  | 'x'
+  | 'arrow-right'
+  | 'arrow-up-right'
+  | 'code'
+  | 'terminal'
+  | 'server'
+  | 'monitor'
+  | 'database'
+  | 'wrench'
+  | 'map-pin'
+  | 'send'
+  | 'sparkles';
