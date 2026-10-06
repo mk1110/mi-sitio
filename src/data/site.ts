@@ -43,11 +43,10 @@ export const site = {
   location: 'San Juan, Argentina',
   availability: 'Disponible para nuevos proyectos',
   /**
-   * Déjalo vacío si no quieres mostrar un email público.
-   * Mientras esté vacío, el contacto principal se hace por Instagram.
-   * TODO: pon tu email aquí si prefieres incluirlo.
+   * Tu email público. Mientras esté vacío, el contacto principal se hace por
+   * Instagram y el icono de email no se muestra en las listas de redes.
    */
-  email: '',
+  email: 'mk1110aballay@gmail.com',
   instagram: 'https://www.instagram.com/mkap_1110/',
 } satisfies {
   name: string;
@@ -77,6 +76,10 @@ export const socials: SocialLink[] = [
     href: site.instagram,
     icon: 'instagram',
   },
+  // El email solo entra en la lista si lo configuraste arriba
+  ...(site.email
+    ? [{ label: 'Email', href: `mailto:${site.email}`, icon: 'mail' as IconName }]
+    : []),
 ];
 
 export const nav: NavLink[] = [
