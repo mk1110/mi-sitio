@@ -114,6 +114,14 @@ export const skills: SkillGroup[] = [
 
 export const projects: Project[] = [
   {
+    title: 'Foro Dev',
+    description:
+      'Foro para desarrolladores: comunidad para publicar y responder consultas técnicas, compartir soluciones y aprender en conjunto.',
+    tags: ['Node.js', 'JavaScript', 'MySQL'],
+    demo: 'https://forodev-production.up.railway.app',
+    featured: true,
+  },
+  {
     title: 'Stock de Productos',
     description:
       'Sitio web para la gestión de stock: control de inventario, existencias y movimientos de productos.',

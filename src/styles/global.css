@@ -25,6 +25,25 @@
   --color-accent-950: #082f49;
 }
 
+/* ------------------------------------------------------------------ */
+/*  Tema oscuro neon violeta                                           */
+/*  Solo se redefinen las variables de acento cuando .dark está activo. */
+/*  El tema claro sigue usando la escala cyan de arriba.                */
+/* ------------------------------------------------------------------ */
+.dark {
+  --color-accent-50: #f7f3ff;
+  --color-accent-100: #ede6ff;
+  --color-accent-200: #ddcfff;
+  --color-accent-300: #c4a8ff;
+  --color-accent-400: #a675ff;
+  --color-accent-500: #8b3dff;
+  --color-accent-600: #7a1fff;
+  --color-accent-700: #6900f0;
+  --color-accent-800: #5600c2;
+  --color-accent-900: #470099;
+  --color-accent-950: #2c0057;
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
