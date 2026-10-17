@@ -16,6 +16,7 @@ export type IconName =
   | 'monitor'
   | 'database'
   | 'wrench'
+  | 'brain'
   | 'map-pin'
   | 'send'
   | 'sparkles';

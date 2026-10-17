@@ -5,13 +5,14 @@ import Icon from './icons/Icon.astro';
 import { projects, socials } from '../data/site';
 
 const githubUrl = socials.find((social) => social.icon === 'github')?.href;
+const siteCount = projects.length;
 ---
 
 <Section
   id="proyectos"
   eyebrow="Proyectos"
   title="Proyectos destacados"
-  description="Dos sitios que he construido y que están en producción."
+  description={`${siteCount} sitios que he construido y que están en producción.`}
 >
   <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
     {projects.map((project) => <ProjectCard project={project} />)}

@@ -93,7 +93,7 @@ export const skills: SkillGroup[] = [
   {
     category: 'Frontend',
     icon: 'monitor',
-    items: ['TypeScript', 'Astro', 'Tailwind CSS', 'HTML5', 'CSS3'],
+    items: ['JavaScript', 'TypeScript', 'Astro', 'Tailwind CSS', 'HTML5', 'CSS3'],
   },
   {
     category: 'Backend',
@@ -103,7 +103,7 @@ export const skills: SkillGroup[] = [
   {
     category: 'Bases de datos',
     icon: 'database',
-    items: ['MySQL', 'Supabase', 'SQLite'],
+    items: ['PostgreSQL', 'MySQL', 'Supabase', 'SQLite'],
   },
   {
     category: 'Herramientas',
@@ -134,6 +134,13 @@ export const projects: Project[] = [
       'Sitio web para una peluquería: servicios, precios, ubicación y contacto con cita previa.',
     tags: ['Python', 'Flask', 'Bootstrap'],
     demo: 'https://peluqueriaelegantman.vercel.app',
+  },
+  {
+    title: 'Planificador de Tareas',
+    description:
+      'Aplicación web para organizar tu día a día: tareas separadas en categorías laboral, cotidiana y médica, con registro de usuarios e inicio de sesión.',
+    tags: ['Python', 'Flask', 'PostgreSQL', 'Tailwind CSS'],
+    demo: 'https://planificador-tareas-gamma.vercel.app',
   },
 ];
 
