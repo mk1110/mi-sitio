@@ -1,6 +1,9 @@
 ---
 import { site, contact } from '../data/site';
 import Icon from './icons/Icon.astro';
+
+// El titular va rotando entre estos roles con efecto de máquina de escribir.
+const roles = site.roles;
 ---
 
 <section id="inicio" class="relative scroll-mt-24 overflow-hidden py-20 sm:py-28">
@@ -18,6 +21,7 @@ import Icon from './icons/Icon.astro';
 
   <div class="container-page">
     <p
+      data-reveal
       class="inline-flex items-center gap-2 rounded-full border border-zinc-200/80 bg-white/60 px-3 py-1 text-xs font-medium text-zinc-600 backdrop-blur-sm dark:border-zinc-800 dark:bg-zinc-900/60 dark:text-zinc-400"
     >
       <span class="relative flex size-2" aria-hidden="true">
@@ -29,21 +33,54 @@ import Icon from './icons/Icon.astro';
       {site.availability}
     </p>
 
-    <p class="mt-8 text-sm font-medium text-zinc-600 dark:text-zinc-400">
+    <p
+      data-reveal
+      style="--reveal-delay:70ms"
+      class="mt-8 text-sm font-medium text-zinc-600 dark:text-zinc-400"
+    >
       Hola, soy <span class="font-semibold text-zinc-900 dark:text-zinc-100">{site.name}</span>
     </p>
 
     <h1
-      class="mt-3 max-w-3xl bg-gradient-to-r from-zinc-900 via-zinc-800 to-accent-500 bg-clip-text text-4xl font-extrabold tracking-tight text-transparent sm:text-5xl md:text-6xl dark:from-white dark:via-zinc-200 dark:to-accent-400"
+      data-reveal
+      style="--reveal-delay:140ms"
+      class="mt-3 max-w-3xl select-none text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl"
     >
-      {site.role}
+      <!-- Texto real para SEO y lectores de pantalla: la animación va aparte. -->
+      <span class="sr-only">{site.role}</span>
+
+      <!--
+        Todos los roles se apilan en la misma celda de la grilla. Los ocultos
+        siguen ocupando espacio, así el titular nunca salta de alto cuando el
+        texto que se está escribiendo es más corto.
+      -->
+      <span class="grid" aria-hidden="true">
+        {
+          roles.map((role) => (
+            <span class="invisible col-start-1 row-start-1">{role}</span>
+          ))
+        }
+        <span
+          class="text-gradient-anim text-caret col-start-1 row-start-1"
+          data-typewriter
+          data-roles={JSON.stringify(roles)}
+        >{roles[0]}</span>
+      </span>
     </h1>
 
-    <p class="mt-6 max-w-2xl text-lg leading-relaxed text-zinc-600 sm:text-xl dark:text-zinc-400">
+    <p
+      data-reveal
+      style="--reveal-delay:210ms"
+      class="mt-6 max-w-2xl text-lg leading-relaxed text-zinc-600 sm:text-xl dark:text-zinc-400"
+    >
       {site.tagline}
     </p>
 
-    <div class="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
+    <div
+      data-reveal
+      style="--reveal-delay:280ms"
+      class="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center"
+    >
       <a
         href="#proyectos"
         class="inline-flex items-center justify-center gap-2 rounded-lg bg-accent-500 px-5 py-3 font-semibold text-white shadow-lg shadow-accent-500/25 transition-all hover:-translate-y-0.5 hover:bg-accent-600 hover:shadow-accent-500/40"
@@ -63,6 +100,8 @@ import Icon from './icons/Icon.astro';
     </div>
 
     <p
+      data-reveal
+      style="--reveal-delay:350ms"
       class="mt-10 inline-flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-500"
     >
       <Icon name="map-pin" class="size-4" />
@@ -70,3 +109,86 @@ import Icon from './icons/Icon.astro';
     </p>
   </div>
 </section>
+
+<script>
+  const el = document.querySelector<HTMLElement>('[data-typewriter]');
+
+  if (el?.dataset.roles) {
+    const roles: string[] = JSON.parse(el.dataset.roles);
+    const prefersReducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)',
+    ).matches;
+
+    // Sin animación: se queda el primer rol, que es el que trae el HTML.
+    if (!prefersReducedMotion && roles.length > 1) {
+      const TYPE_MS = 80;
+      const ERASE_MS = 40;
+      const HOLD_MS = 1900;
+      const SWITCH_MS = 420;
+
+      let index = 0;
+      let length = 0;
+      let erasing = false;
+      let timer = 0;
+      let running = false;
+
+      const step = () => {
+        const role = roles[index];
+
+        if (erasing) {
+          length -= 1;
+          el.textContent = role.slice(0, Math.max(length, 0));
+
+          if (length <= 0) {
+            erasing = false;
+            index = (index + 1) % roles.length;
+            return schedule(SWITCH_MS);
+          }
+          return schedule(ERASE_MS);
+        }
+
+        length += 1;
+        el.textContent = role.slice(0, length);
+
+        if (length >= role.length) {
+          erasing = true;
+          // El último rol se muestra el doble de tiempo antes de reiniciar.
+          return schedule(index === roles.length - 1 ? HOLD_MS * 2 : HOLD_MS);
+        }
+        return schedule(TYPE_MS);
+      };
+
+      const schedule = (ms: number) => {
+        clearTimeout(timer);
+        timer = window.setTimeout(step, ms);
+      };
+
+      const play = () => {
+        if (running) return;
+        running = true;
+        schedule(TYPE_MS);
+      };
+
+      const pause = () => {
+        running = false;
+        clearTimeout(timer);
+      };
+
+      // Se detiene si la pestaña quedó oculta o el hero salió de pantalla:
+      // no tiene sentido seguir escribiendo algo que nadie está viendo.
+      document.addEventListener('visibilitychange', () => {
+        document.hidden ? pause() : play();
+      });
+
+      new IntersectionObserver(
+        (entries) => {
+          if (!entries[0]) return;
+          entries[0].isIntersecting ? play() : pause();
+        },
+        { threshold: 0 },
+      ).observe(el);
+
+      play();
+    }
+  }
+</script>

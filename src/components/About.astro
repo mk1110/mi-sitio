@@ -28,7 +28,7 @@ const principles = [
 
 <Section id="sobre-mi" eyebrow="Sobre mí" title="Desarrollo software que resuelve problemas reales">
   <div class="grid gap-10 lg:grid-cols-5 lg:gap-16">
-    <div class="space-y-5 lg:col-span-3">
+    <div data-reveal class="space-y-5 lg:col-span-3">
       <p class="text-base leading-relaxed text-zinc-700 sm:text-lg dark:text-zinc-300">
         Me apasiona el desarrollo de software porque es donde las ideas se vuelven algo que
         la gente puede usar de verdad. Me enriquece el punto donde un reto técnico se vuelve
@@ -55,8 +55,12 @@ const principles = [
 
     <ul class="space-y-4 lg:col-span-2">
       {
-        principles.map((principle) => (
-          <li class="rounded-xl border border-zinc-200 bg-white/60 p-5 transition-colors hover:border-accent-500/40 dark:border-zinc-800 dark:bg-zinc-900/40 dark:hover:border-accent-500/40">
+        principles.map((principle, i) => (
+          <li
+            data-reveal
+            style={`--reveal-delay:${140 + i * 90}ms`}
+            class="rounded-xl border border-zinc-200 bg-white/60 p-5 transition-colors hover:border-accent-500/40 dark:border-zinc-800 dark:bg-zinc-900/40 dark:hover:border-accent-500/40"
+          >
             <div class="flex items-center gap-3">
               <span
                 class="grid size-9 shrink-0 place-items-center rounded-lg bg-accent-500/10 text-accent-500"

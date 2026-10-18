@@ -4,13 +4,17 @@ import Icon from './icons/Icon.astro';
 
 interface Props {
   project: Project;
+  /** Retardo en ms para que las tarjetas entren escalonadas. */
+  delay?: number;
 }
 
-const { project } = Astro.props;
+const { project, delay = 0 } = Astro.props;
 const { title, description, tags, repo, demo, featured } = project;
 ---
 
 <article
+  data-reveal
+  style={`--reveal-delay:${delay}ms`}
   class="group relative flex flex-col rounded-2xl border border-zinc-200 bg-white/60 p-6 transition-all hover:-translate-y-1 hover:border-accent-500/50 hover:shadow-xl hover:shadow-accent-500/5 dark:border-zinc-800 dark:bg-zinc-900/50 dark:hover:border-accent-500/50 dark:hover:shadow-accent-500/10"
 >
   <div class="flex items-start justify-between gap-4">

@@ -23,7 +23,7 @@ npm run dev       # Servidor de desarrollo en http://localhost:4321
 npm run build     # Build de producción en dist/
 npm run preview   # Sirve el build de producción
 npm run check     # Chequeo de tipos (TypeScript estricto)
-npm run og        # Regenera public/og.png desde src/data/site.ts
+npm run og        # Regenera la imagen de Open Graph (public/og-v2.png) desde src/data/site.ts
 ```
 
 ## Cómo personalizar el sitio

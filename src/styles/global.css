@@ -104,4 +104,110 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+
+  /* El contenido animado por scroll se muestra siempre, sin depender del JS. */
+  html.js-anim [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Animaciones de entrada al hacer scroll                             */
+/* ------------------------------------------------------------------ */
+/*  El estado oculto solo se aplica cuando `html.js-anim` está presente, */
+/*  y esa clase la agrega un script del <head>. Si el JavaScript falla o  */
+/*  está deshabilitado, el contenido se ve normal desde el principio.    */
+
+.js-anim [data-reveal] {
+  opacity: 0;
+  transform: translateY(1.5rem);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.js-anim [data-reveal].is-revealed {
+  opacity: 1;
+  transform: none;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Gradiente animado del titular                                     */
+/* ------------------------------------------------------------------ */
+
+.text-gradient-anim {
+  --grad-soft: #52525b; /* zinc-600 */
+  --grad-strong: #18181b; /* zinc-900 */
+  --grad-accent: var(--color-accent-600);
+  background-image: linear-gradient(
+    100deg,
+    var(--grad-soft) 0%,
+    var(--grad-strong) 28%,
+    var(--grad-accent) 50%,
+    var(--grad-strong) 72%,
+    var(--grad-soft) 100%
+  );
+  background-size: 240% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradient-pan 8s linear infinite;
+}
+
+.dark .text-gradient-anim {
+  --grad-strong: #ffffff;
+  --grad-accent: var(--color-accent-400);
+}
+
+@keyframes gradient-pan {
+  to {
+    background-position: -240% 0;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Cursor de la máquina de escribir                                   */
+/* ------------------------------------------------------------------ */
+
+.text-caret::after {
+  content: '';
+  display: inline-block;
+  width: 0.075em;
+  height: 0.82em;
+  margin-left: 0.07em;
+  border-radius: 2px;
+  background: var(--color-accent-500);
+  animation: caret-blink 1.1s steps(1, end) infinite;
+}
+
+@keyframes caret-blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  50.01%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Sin movimiento: se cortan las animaciones decorativas              */
+/*  Este bloque va al final a propósito: tiene que ganarle a las        */
+/*  definiciones de arriba, que comparten la misma especificidad.       */
+/*  Sin esto, la regla global de 0.01ms las deja parpadeando.          */
+/* ------------------------------------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+  .text-gradient-anim {
+    animation: none;
+  }
+
+  /* El cursor solo tiene sentido mientras se escribe el texto. */
+  .text-caret::after {
+    animation: none;
+    display: none;
+  }
 }

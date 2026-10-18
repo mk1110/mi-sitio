@@ -13,7 +13,8 @@ const pageTitle = title ? `${title} | ${site.name}` : `${site.name} — ${site.r
 
 const base = Astro.site ?? Astro.url;
 const canonicalURL = new URL(Astro.url.pathname, base).href;
-const ogImage = new URL('/og.png', base).href;
+const ogImage = new URL(site.ogImage, base).href;
+const ogAlt = `${site.name}, ${site.role}. ${site.tagline}`;
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -50,14 +51,18 @@ const jsonLd = {
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImage} />
+    <meta property="og:image:secure_url" content={ogImage} />
+    <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={ogAlt} />
 
-    <!-- Twitter -->
+    <!-- Twitter / X -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={ogAlt} />
 
     <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
 
@@ -69,6 +74,10 @@ const jsonLd = {
           document.documentElement.classList.remove('dark');
         }
       } catch {}
+
+      // Marca de que hay JavaScript: sin ella las animaciones de entrada
+      // no ocultan nada, así que el contenido se ve aunque el script falle.
+      document.documentElement.classList.add('js-anim');
     </script>
   </head>
   <body class="min-h-dvh">
@@ -81,3 +90,30 @@ const jsonLd = {
     <slot />
   </body>
 </html>
+
+<script>
+  // Entrada progresiva al hacer scroll. Cada elemento con [data-reveal]
+  // arranca oculto (ver global.css) y se muestra cuando entra en pantalla.
+  const revealables = document.querySelectorAll<HTMLElement>('[data-reveal]');
+  const prefersReducedMotion = window.matchMedia(
+    '(prefers-reduced-motion: reduce)',
+  ).matches;
+
+  if (prefersReducedMotion || !('IntersectionObserver' in window)) {
+    revealables.forEach((el) => el.classList.add('is-revealed'));
+  } else {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          entry.target.classList.add('is-revealed');
+          observer.unobserve(entry.target);
+        }
+      },
+      // Empieza a animado un poco antes de llegar al borde inferior.
+      { rootMargin: '0px 0px -12% 0px', threshold: 0.05 },
+    );
+
+    revealables.forEach((el) => observer.observe(el));
+  }
+</script>

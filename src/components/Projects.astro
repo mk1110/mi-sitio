@@ -15,12 +15,13 @@ const siteCount = projects.length;
   description={`${siteCount} sitios que he construido y que están en producción.`}
 >
   <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-    {projects.map((project) => <ProjectCard project={project} />)}
+    {projects.map((project, i) => <ProjectCard project={project} delay={i * 90} />)}
   </div>
 
   {
     githubUrl && (
       <a
+        data-reveal
         href={githubUrl}
         target="_blank"
         rel="noopener noreferrer"

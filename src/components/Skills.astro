@@ -12,8 +12,12 @@ import { skills } from '../data/site';
 >
   <div class="grid gap-5 sm:grid-cols-2">
     {
-      skills.map((group) => (
-        <article class="rounded-2xl border border-zinc-200 bg-white/60 p-6 transition-colors hover:border-accent-500/40 dark:border-zinc-800 dark:bg-zinc-900/40 dark:hover:border-accent-500/40">
+      skills.map((group, i) => (
+        <article
+          data-reveal
+          style={`--reveal-delay:${i * 90}ms`}
+          class="rounded-2xl border border-zinc-200 bg-white/60 p-6 transition-colors hover:border-accent-500/40 dark:border-zinc-800 dark:bg-zinc-900/40 dark:hover:border-accent-500/40"
+        >
           <div class="flex items-center gap-3">
             <span
               class="grid size-9 shrink-0 place-items-center rounded-lg bg-accent-500/10 text-accent-500"

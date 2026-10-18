@@ -37,11 +37,30 @@ export const site = {
   name: 'Aballay Mariano',
   shortName: 'Aballay Mariano',
   role: 'Desarrollador Web Full Stack',
+  /**
+   * Roles que se van turnando en el titular del hero.
+   * El primero debe coincidir con `role` de arriba: es el que usan el SEO,
+   * el Open Graph y los lectores de pantalla.
+   */
+  roles: [
+    'Desarrollador Web Full Stack',
+    'Desarrollador Frontend',
+    'Desarrollador Backend',
+    'Creador de Productos Digitales',
+  ],
   tagline: 'Construyo productos web completos, de la base de datos a la interfaz.',
   description:
     'Desarrollador web full stack especializado en convertir ideas en productos digitales sólidos, rápidos y mantenibles.',
   location: 'San Juan, Argentina',
   availability: 'Disponible para nuevos proyectos',
+  /**
+   * Imagen de Open Graph (1200x630) que se ve al compartir el link.
+   * El número es la versión: si cambiás la imagen y los previews siguen
+   * mostrando la vieja, subilo a `v3`, `v4`, ... para romper la caché de
+   * WhatsApp, Facebook y LinkedIn, que guardan la imagen mucho tiempo.
+   * Se genera con `npm run og`.
+   */
+  ogImage: '/og-v2.png',
   /**
    * Tu email público. Mientras esté vacío, el contacto principal se hace por
    * Instagram y el icono de email no se muestra en las listas de redes.
@@ -52,10 +71,12 @@ export const site = {
   name: string;
   shortName: string;
   role: string;
+  roles: string[];
   tagline: string;
   description: string;
   location: string;
   availability: string;
+  ogImage: string;
   email: string;
   instagram: string;
 };
